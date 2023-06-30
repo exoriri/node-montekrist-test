@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>App</title>
+  </head>
+  <body>
+    <header class="header">
+      <nav>
+        <div class="nav-wrapper horizontal-space">
+          <a href="#" class="brand-logo">Star Wars</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="row">
+      <form class="search-form">
+        <div class="search-form__row">
+          <div class="search-form__input-field input-field">
+            <input id="search-field" type="text" class="validate">
+            <label for="search-field">Сharacter`s name, planet or starship</label>
+          </div>
+          <button id="search-btn" class="btn waves-effect waves-light search-form__btn" type="button" name="action">Search</button>
+        </div>
+      </form>
+    </div>
+    <ul id="tabs-swipe" style="visibility: hidden;" class="tabs">
+      <li class="tab col s3"><a href="#swipe-1" data-type="people">Characters</a></li>
+      <li class="tab col s3"><a href="#swipe-2" data-type="planets">Planets</a></li>
+      <li class="tab col s3"><a href="#swipe-3" data-type="starships">Starships</a></li>
+    </ul>
+    <div id="tabs-content"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../js/main/main.initializers.js"></script>
+    <script src="../js/main/main.listeners.js" type="module"></script>
+  </body>
+</html>
