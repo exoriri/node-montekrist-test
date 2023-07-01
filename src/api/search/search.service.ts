@@ -13,8 +13,8 @@ const DEFAULT_RESPONSE_VALUE = {
 const makeFoundStartWarsResponse = (res: {
   data: { previous: string | null; next: string | null; results: string[] };
 }) => ({
-  prev: res.data.previous ? true : null,
-  next: res.data.next ? true : null,
+  prev: res.data.previous ? true : false,
+  next: res.data.next ? true : false,
   found: res.data.results,
 });
 
