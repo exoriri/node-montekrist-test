@@ -7,37 +7,51 @@ export const REQUESTS_TYPES = ['people', 'planets', 'starships'];
 const DEFAULT_RESPONSE_VALUE = {
   prev: null,
   next: null,
-  found: null
-}
+  found: null,
+};
 
-const makeFoundStartWarsResponse = (res: { data: { previous: string | null, next: string | null, results: string[] } }) => (
-  {
-    prev: res.data.previous,
-    next: res.data.next,
-    found: res.data.results
-  }
-)
+const makeFoundStartWarsResponse = (res: {
+  data: { previous: string | null; next: string | null; results: string[] };
+}) => ({
+  prev: res.data.previous ? true : null,
+  next: res.data.next ? true : null,
+  found: res.data.results,
+});
 
 @Injectable()
 export class SearchService {
-  async findAll(searchText: string, types: Array<string>) {
-    const requests = REQUESTS_TYPES.map(type => {
+  async findAll(
+    searchText: string,
+    types: Array<string>,
+    page?: string | number,
+  ) {
+    const pageParam = page ? `&page=${page}` : '';
+    const requests = REQUESTS_TYPES.map((type) => {
       if (types.includes(type)) {
-        return axios.get(`${STARWARS_BASE_URL}/${type}?search=${searchText}`)
+        return axios.get(
+          `${STARWARS_BASE_URL}/${type}?search=${searchText}${pageParam}`,
+        );
       } else {
-        Promise.resolve();
+        return;
       }
     });
-    
-    const [peopleResponse, planetsResponse, starshipsResponse] = await Promise.all(requests)
-    const people = peopleResponse ? makeFoundStartWarsResponse(peopleResponse) : DEFAULT_RESPONSE_VALUE;
-    const planets = planetsResponse ? makeFoundStartWarsResponse(planetsResponse) : DEFAULT_RESPONSE_VALUE;
-    const starships = starshipsResponse ? makeFoundStartWarsResponse(starshipsResponse) : DEFAULT_RESPONSE_VALUE;
+
+    const [peopleResponse, planetsResponse, starshipsResponse] =
+      await Promise.all(requests);
+    const people = peopleResponse
+      ? makeFoundStartWarsResponse(peopleResponse)
+      : DEFAULT_RESPONSE_VALUE;
+    const planets = planetsResponse
+      ? makeFoundStartWarsResponse(planetsResponse)
+      : DEFAULT_RESPONSE_VALUE;
+    const starships = starshipsResponse
+      ? makeFoundStartWarsResponse(starshipsResponse)
+      : DEFAULT_RESPONSE_VALUE;
 
     return {
       people,
       planets,
-      starships
+      starships,
     };
   }
 }

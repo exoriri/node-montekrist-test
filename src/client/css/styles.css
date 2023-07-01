@@ -37,6 +37,34 @@
     align-items: center;
 }
 
+.table-pagination-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.table-pagination-links__item {
+    color: #ee6e73;
+    margin-right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.table-pagination-links__item:last-child {
+    margin-right: 0;
+}
+
+.table-pagination-links__item--page {
+    color: #000;
+    cursor: auto;
+}
+
+.table-pagination-links__item--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 @media screen and (max-width: 920px) {
     .search-form {
         width: 95%;

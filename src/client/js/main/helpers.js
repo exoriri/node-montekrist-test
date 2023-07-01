@@ -1,93 +1,52 @@
-import { TABS_LIST } from "./constants.js";
+import { TABS_LIST } from './constants.js';
 
 export const getActiveTabs = () => {
-    //we can have only one active tab
-    const tabsItems = TABS_LIST.getElementsByTagName('a');
-    const activeTabs = Array.from(tabsItems).reduce((acc, tab) => {
-        if (tab.classList.contains('active')) {
-            acc.push(tab.dataset.type);
-        }
-        return acc;
-    }, []);
-    return activeTabs.length > 0 ? activeTabs : ['people'];
+  //we can have only one active tab
+  const tabsItems = TABS_LIST.getElementsByTagName('a');
+  const activeTabs = Array.from(tabsItems).reduce((acc, tab) => {
+    if (tab.classList.contains('active')) {
+      acc.push(tab.dataset.type);
+    }
+    return acc;
+  }, []);
+  return activeTabs.length > 0 ? activeTabs : ['people'];
 };
 
-export const renderCharsTable = (chars) => {
-    return `<div id="swipe-1" class="col">
-              <table class="highlight">
-              <thead>
-                  <tr>
-                  <th>Name</th>
-                  <th>Gender</th>
-                  <th>Weight</th>
-                  </tr>
-              </thead>
-  
-              <tbody>
-                  ${chars.map(
-                    (char) => `
-                      <tr>
-                          <td>${char.name}</td>
-                          <td>${char.gender}</td>
-                          <td>${char.mass}</td>
-                      </tr>
-                  `,
-                  )}
-              </tbody>
-              </table>
-          </div>`.replace(/,/g, '');
-  };
-  
-  export const renderPlanetsTable = (planets) => {
-    return `<div id="swipe-2" class="col">
-              <table class="highlight">
-              <thead>
-                  <tr>
-                  <th>Name</th>
-                  <th>Diameter</th>
-                  <th>Population</th>
-                  </tr>
-              </thead>
-  
-              <tbody>
-                  ${planets.map(
-                    (planet) => `
-                      <tr>
-                          <td>${planet.name}</td>
-                          <td>${planet.diameter}</td>
-                          <td>${planet.population}</td>
-                      </tr>
-                  `,
-                  )}
-              </tbody>
-              </table>
-          </div>`.replace(/,/g, '');
-  };
+export const addPaginationListeners = (
+  prevLinkEnabled,
+  nextLinkEnabled,
+  onPaginationLinkClick,
+) => {
+  const activeTab = getActiveTabs()[0];
+  const paginationParent = document.getElementById(`${activeTab}-pagination`);
+  const paginationPrevLink = paginationParent.children[0];
+  const paginationNextLink =
+    paginationParent.children[paginationParent.children.length - 1];
+  const page = paginationParent.children[1].innerText;
 
-  export const renderStarshipsTable = (starships) => {
-    return `<div id="swipe-2" class="col">
-        <table class="highlight">
-            <thead>
-                <tr>
-                <th>Name</th>
-                <th>Length</th>
-                <th>Crew size</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                ${starships.map(
-                (starship) => `
-                    <tr>
-                        <td>${starship.name}</td>
-                        <td>${starship.length}</td>
-                        <td>${starship.crew}</td>
-                    </tr>
-                `,
-                )}
-            </tbody>
-        </table>
-    </div>`.replace(/,/g, '');
+  if (!prevLinkEnabled) {
+    paginationPrevLink.disabled = true;
+    paginationPrevLink.classList.add('table-pagination-links__item--disabled');
+  } else {
+    paginationPrevLink.classList.remove(
+      'table-pagination-links__item--disabled',
+    );
+    paginationPrevLink.addEventListener('click', function (e) {
+      const numericPage = parseInt(page, 10) - 1;
+      onPaginationLinkClick(numericPage);
+    });
   }
-  
-  export const renderEmptyMessage = (entity) => `<h4>${entity} not found</h4>`;
+
+  if (!nextLinkEnabled) {
+    paginationNextLink.disabled = true;
+    paginationNextLink.classList.add('table-pagination-links__item--disabled');
+  } else {
+    paginationNextLink.classList.remove(
+      'table-pagination-links__item--disabled',
+    );
+    paginationNextLink.addEventListener('click', function (e) {
+      const numericPage = parseInt(page, 10) + 1;
+      onPaginationLinkClick(numericPage);
+    });
+  }
+};
