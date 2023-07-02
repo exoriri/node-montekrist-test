@@ -37,5 +37,5 @@ $ npm run start:prod
 ```
 
 Так же у endpoint есть дополнительные query параметры: </br>
-- types - параметр для получения отдельной сущности. Например url: `http://hostname/search?text={your_searching_text}&types=people,planets` вернет только персонажей и планеты.</br> По-умолчанию `types=people,planets,starships`.
+- types - параметр для получения отдельной сущности. Например url: `http://hostname/search?text={your_searching_text}&types=people,planets` вернет только персонажей и планеты. ВАЖНО: В данном случае, starships тоже вернется, но ключи `prev, next и found будут null`. </br> По-умолчанию `types=people,planets,starships`.
 - page - страница поиска. Принимает только натуральные числа. Например url: `http://hostname/search?text={your_searching_text}&types=people,planets&page=3`. Вернет персонажей и планеты со страницы 3.
